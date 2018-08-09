@@ -1,0 +1,15 @@
+<form id="target" >
+  <input type="text" id = "name1">
+  <input type="submit" value="Add" id="other">
+</form>
+<div >
+  Trigger the handler
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script type = "text/javascript">
+$( "#other" ).click(function() {
+document.getElementById("name1").innerHTML = localStorage.lastname;
+});
+localStorage.setItem("lastname", "Smith");
+</script>
