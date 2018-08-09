@@ -1,15 +1,84 @@
-<form id="target" >
-  <input type="text" id = "name1">
-  <input type="submit" value="Add" id="other">
+<form id="target" > 
+	Task Id : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id = "inputfirst" class = "textb"/> 	<p></p>
+	Task Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id = "inputlast" class = "textb" /> <p></p>	
+	Email :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id = "inputemail" /> <p></p>
+	<input type="button" value="Save" id="Save" style = "margin-left:300px;font-size:15px;font-family: arial;">
+	<p></p>
+	<input type = "checkbox" id = "enter"/>send on enter ...
+	<p><input type = "text" id = "searchinput"/> &nbsp;&nbsp;<input type = "button" value = "Search"/></p>	
+		<table id = "tournament">
+			<th>id </th>
+			<th>task</th>
+			
+		</table>
 </form>
-<div >
-  Trigger the handler
-</div>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
 <script type = "text/javascript">
-$( "#other" ).click(function() {
-document.getElementById("name1").innerHTML = localStorage.lastname;
+var $tournament = $('#tournament');      
+
+
+console.log("hell");
+
+	if(localStorage.getItem("#tournament")) {
+                $tournament.html(localStorage.getItem("#tournament"));
+            }
+$(document).ready(function() {
+$( "#Save" ).click(function(event) {	  
+	save();
+	
 });
-localStorage.setItem("lastname", "Smith");
+
+
+$(document).on("click", ".edit", function() {
+	console.log("edittt");	
+	$('#inputfirst').val($(this).closest('tr').find('#first').text());
+	$('#inputlast').val($(this).closest('tr').find('#last').text());	
+	localStorage.setItem("#tournament", $tournament.html());
+	$(this).closest ('tr').remove (); 
+});
+
+
+$(document).on("click", ".delete", function() {
+	console.log("delete data");	
+    console.log("data delete");
+	alert("delete data");	
+	$(this).closest ('tr').remove ();  
+	localStorage.setItem("#tournament", $tournament.html());        
+
+});
+
+$("#searchinput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#tournament tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+
+$(".textb").on("keyup", function(event) {
+	if(event.which == 13){
+		if($("#enter").prop("checked")){
+		console.log("you presssed enter");
+		event.preventDefault();
+		save();
+		}
+	}
+	
+    
+    });
+  });
+
+
+function save(){
+	$("#firstname").prop("disabled", true);
+	alert($('#inputfirst').val());	
+	$('#tournament').append('<tr><td id = "first">' + $('#inputfirst').val() + '</td><td id = "last">'+ $('#inputlast').val() +'</td><td><input type = "button" value = "Edit" class = "edit"/></td>'+'<td><input type = "button" value = "Delete" class = "delete"/></td></tr>');  
+	localStorage.setItem("#tournament", $tournament.html());
+    $('#inputfirst').val("");
+	$('#inputlast').val("");
+	$('#inputemail').val("");	
+}
 </script>
